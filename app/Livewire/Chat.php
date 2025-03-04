@@ -17,8 +17,16 @@ class Chat extends Component
 
         $this->dispatch('loadMessage');
     }
+
+    public function handleEnter($event){
+        if($event['shiftKey']){
+            $this->userMessage .= "\n";
+        }else{
+            $this->sendMessage();
+        }
+    }
     public function sendMessage(){
-        if($this->userMessage!=null || $this->userMessage!="") {
+        if($this->userMessage!=null || trim($this->userMessage) != "") {
             $chat = new \App\Models\Chat();
             $chat->from_id = Auth::user()->id;
             $chat->to_id = $this->user['id'];
@@ -40,7 +48,7 @@ class Chat extends Component
                 ->orWhere(function ($query) {
                     $query->where('from_id', $this->user['id'])->where('to_id',Auth::user()->id);
                 })
-                ->get();
+                ->orderBy('created_at')->get();
         }
         return view('livewire.chat',['chats'=>$this->chats]);
     }

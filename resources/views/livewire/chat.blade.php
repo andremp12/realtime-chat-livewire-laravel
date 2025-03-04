@@ -22,7 +22,7 @@
             @endforeach
         </div>
         <div class="w-full absolute inline z-10 left-0 bottom-0 p-2">
-            <textarea wire:model="userMessage" class="textarea-xs w-full" placeholder="Send your Message"></textarea>
+            <textarea wire:model="userMessage" wire:keydown.enter="handleEnter" class="textarea-xs w-full" placeholder="Send your Message"></textarea>
             <button type="submit" class="bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded-lg text-white absolute right-0 me-4 top-0 translate-y-[50%]">Send</button>
         </div>
     </div>
@@ -46,6 +46,7 @@
         let chatContainer = document.getElementById("chat-container");
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }
+
 </script>
 
 {{--@push('scripts')--}}

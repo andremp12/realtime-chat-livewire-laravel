@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -45,7 +46,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function chats():hasMany{
-        return $this->hasMany(Chat::class,'from_id');
+    public function sendMessages():hasMany{
+        return $this->hasMany(Chat::class,'from_id')->where('to_id',Auth::id());
+    }
+    public function receivedMessages():hasMany{
+        return $this->hasMany(Chat::class,'to_id')->where('from_id',Auth::id());
     }
 }

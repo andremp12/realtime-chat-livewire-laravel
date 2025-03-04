@@ -17,8 +17,8 @@ class Dashboard extends Component
     {
         $this->chats = \App\Models\Chat::where('from_id',Auth::user()->id)->orWhere('to_id',Auth::user()->id)->get();
         return view('livewire.dashboard',[
-            'users'=>User::with('chats')->where('id','!=',Auth::user()->id)->get(),
-            'chats'=> $this->chats
+            'users'=>User::with(['sendMessages','receivedMessages'])->where('id','!=',Auth::user()->id)->get(),
+//            'messages'=> $this->chats
         ]);
     }
 }

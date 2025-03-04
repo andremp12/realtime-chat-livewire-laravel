@@ -1,6 +1,6 @@
 <div>
     <div class="w-full flex p-4 gap-4">
-        <div class="p-4 bg-gray-100 rounded-lg min-h-52 w-1/3">
+        <div wire:poll class="p-4 bg-gray-100 rounded-lg min-h-52 w-1/3">
             <h1 class="text-lg text-gray-800 font-semibold">Chats</h1>
             <hr class="h-4">
             @foreach($users as $user)
@@ -13,7 +13,19 @@
                     <div>
                         <h1 class="font-semibold text-sm text-gray-800 capitalize">{{$user->username}}</h1>
 
-                        <p class="text-gray-800 font-medium text-xs cursor-default">{{$chats->last()->message}}</p>
+                        @if($user->sendMessages->last() != null && $user->receivedMessages->last() != null)
+                            <p class="text-gray-800 font-medium text-xs cursor-default">
+                                {{ $user->sendMessages->last()->created_at > $user->receivedMessages->last()->created_at ? $user->sendMessages->last()->message : $user->receivedMessages->last()->message}}</p>
+                        @elseif($user->sendMessages->last() != null || $user->receivedMessages->last() != null)
+                            <p class="text-gray-800 font-medium text-xs cursor-default">
+                                {{ $user->sendMessages->last() ? $user->sendMessages->last()->message : $user->receivedMessages->last()->message}}
+                            </p>
+                        @else
+                            <p class="text-gray-500 font-light italic text-xs cursor-default">
+                                Send Your First Message!
+                            </p>
+                        @endif
+
                     </div>
                 </div>
             @endforeach
