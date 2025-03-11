@@ -39,10 +39,10 @@
 
 
     Livewire.on('loadMessage',()=>{
-        setTimeout(scrollBottom,10)
+        setTimeout(latestMessage,10)
     })
 
-    function scrollBottom(){
+    function latestMessage(){
         let chatContainer = document.getElementById("chat-container");
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }
